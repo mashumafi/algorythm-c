@@ -1,0 +1,52 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>Algorythm Control</title>
+    <link rel="stylesheet" href="https://unpkg.com/@picocss/pico@2.0.6/css/pico.min.css" />
+    <script src="https://unpkg.com/htmx.org@1.9.12"></script>
+  </head>
+  <body class="container">
+    <h1>Algorythm Control</h1>
+
+    <section>
+      <h2>Bluetooth Devices</h2>
+      <div id="ble-list" hx-get="/ble/list" hx-trigger="load, every 4s" hx-swap="innerHTML">
+        <em>Loading devices...</em>
+      </div>
+    </section>
+
+    <section>
+      <h2>Audio Output Devices</h2>
+      <div id="audio-list" hx-get="/audio/list" hx-trigger="load, every 5s" hx-swap="innerHTML">
+        <em>Loading audio devices...</em>
+      </div>
+    </section>
+
+    <section>
+      <h2>Play White Noise</h2>
+      <form id="noise-form">
+        <div class="grid">
+          <label>Rate (Hz)
+            <input type="number" id="rate" value="48000" min="8000" step="1" />
+          </label>
+          <label>Channels
+            <input type="number" id="channels" value="2" min="1" max="8" />
+          </label>
+          <label>Duration (ms)
+            <input type="number" id="duration" value="3000" min="100" step="100" />
+          </label>
+          <label>Amplitude (0..1)
+            <input type="number" id="amp" value="0.2" min="0" max="1" step="0.05" />
+          </label>
+        </div>
+        <button type="submit">Play</button>
+        <button type="button" id="noise-stop">Stop</button>
+      </form>
+      <div id="noise-result"></div>
+    </section>
+
+    <script src="/js/app.js"></script>
+  </body>
+ </html>
