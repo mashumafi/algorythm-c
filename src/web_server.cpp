@@ -40,8 +40,7 @@ static std::string render_ble_list() {
             html += "<tr><td colspan=4>No adapters found</td></tr>";
         } else {
             auto adapter = adapters.front();
-            adapter.scan_for(1500);
-            auto peripherals = adapter.scan_get_results();
+            auto peripherals = adapter.get_paired_peripherals();
             if (peripherals.empty()) {
                 html += "<tr><td colspan=4>No devices found</td></tr>";
             } else {
@@ -60,7 +59,7 @@ static std::string render_ble_list() {
             }
         }
     } catch(...) {
-        html += "<tr><td colspan=4>Error scanning BLE</td></tr>";
+        html += "<tr><td colspan=4>Error listing BLE devices</td></tr>";
     }
     html += "</tbody></table>";
     return std::string("<div id=\"ble-list\">") + html + "</div>";
@@ -238,9 +237,8 @@ int main() {
             auto adapters = Adapter::get_adapters();
             if (!adapters.empty()) {
                 auto adapter = adapters.front();
-                adapter.scan_for(1500);
-                auto results = adapter.scan_get_results();
-                for (auto& p : results) {
+                auto peripherals = adapter.get_paired_peripherals();
+                for (auto& p : peripherals) {
                     if (p.address() == address) {
                         bool connected = false;
                         try { connected = p.is_connected(); } catch(...) { connected = false; }
@@ -310,7 +308,7 @@ int main() {
         res.set_content("<small>White noise stopped.</small>", "text/html; charset=utf-8");
     });
 
-    const char* host = "127.0.0.1";
+    const char* host = "0.0.0.0";
     int port = 8080;
     printf("Server listening at http://%s:%d\n", host, port);
     svr.listen(host, port);

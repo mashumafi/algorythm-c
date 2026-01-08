@@ -11,7 +11,7 @@ set_target_properties(ble PROPERTIES OUTPUT_NAME "ble")
 
 # White noise CLI
 add_executable(noise noise.c)
-target_link_libraries(noise PRIVATE miniaudio httplib)
+target_link_libraries(noise PRIVATE miniaudio httplib m)
 set_target_properties(noise PROPERTIES OUTPUT_NAME "noise")
 set_property(TARGET noise PROPERTY C_STANDARD 11)
 set_property(TARGET noise PROPERTY C_STANDARD_REQUIRED ON)
